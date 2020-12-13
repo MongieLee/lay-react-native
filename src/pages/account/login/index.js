@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Image, StatusBar, StyleSheet} from 'react-native';
-import Bg from '../../../../images/login-bg.jpg';
+import Bg from '../../../resource/images/login-bg.jpg';
 import {pxToDp} from '../../../utils/styleKit';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Input} from 'react-native-elements';
