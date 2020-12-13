@@ -6,7 +6,7 @@ export const ACCOUNT_LOGIN = '/user/login';
 export const ACCOUNT_REGINFO = 'user/loginReginfo';
 //新用户注册
 
-export const ACCOUNT_VALIDATEVCODE = 'user/loginverification';
+export const ACCOUNT_VALIDATEVCODE = 'user/loginVerification';
 //检查验证码
 
 export const ACCOUNT_CHECKHEADIMAGE = 'user/loginreginfo/head';
