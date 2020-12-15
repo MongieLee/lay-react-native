@@ -6023,6 +6023,11 @@ react-is@^17.0.1:
   resolved "https://registry.npm.taobao.org/react-is/download/react-is-17.0.1.tgz?cache=0&sync_timestamp=1603367576715&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-is%2Fdownload%2Freact-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha1-WzUxvXamRaTJ+25pPtNkGeMwEzk=
 
+react-native-amap-geolocation@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npm.taobao.org/react-native-amap-geolocation/download/react-native-amap-geolocation-1.1.2.tgz#4388731828bbe84493ac5894d0df27b4402ae3c5"
+  integrity sha1-Q4hzGCi76ESTrFiU0N8ntEAq48U=
+
 react-native-confirmation-code-field@^6.5.1:
   version "6.5.1"
   resolved "https://registry.npm.taobao.org/react-native-confirmation-code-field/download/react-native-confirmation-code-field-6.5.1.tgz#0097c9748c2abbe28d8b34ee343ef60cf93434c2"
@@ -6084,6 +6089,11 @@ react-native-linear-gradient@^2.5.6:
   version "2.5.6"
   resolved "https://registry.npm.taobao.org/react-native-linear-gradient/download/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
   integrity sha1-liFcvF7HoBJHogiQiIqnW4NNRKA=
+
+react-native-picker@^4.3.7:
+  version "4.3.7"
+  resolved "https://registry.npm.taobao.org/react-native-picker/download/react-native-picker-4.3.7.tgz#9842e8c62ff0d8b676e9514d9f9172413c0518a8"
+  integrity sha1-mELoxi/w2LZ26VFNn5FyQTwFGKg=
 
 react-native-ratings@^7.3.0:
   version "7.3.0"
