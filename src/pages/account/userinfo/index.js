@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {pxToDp} from '../../../utils/styleKit';
 import SvgUri from 'react-native-svg-uri';
 import {male, female} from '../../../resource/fonts/svgIcon';
-import {Input} from 'react-native-elements';
+import {Input, Avatar, Accessory} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import Geo from '../../../utils/Geo';
 import Picker from 'react-native-picker';
 import CityJson from '../../../resource/city.json';
 import ColorBtn from '../../../components/ColorBtn';
 import Toast from '../../../components/Toast';
-// import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-crop-picker';
+import kkk from '../../../resource/images/login-bg.jpg';
 
 const UserInfo = () => {
   const [sumbitInfo, setSumbitInfo] = useState({
@@ -52,17 +53,17 @@ const UserInfo = () => {
   };
   const chooeseHeadImg = () => {
     const {nickname, birthday, city} = sumbitInfo;
-    if (!nickname || !birthday || city) {
+    if (!nickname || !birthday || !city) {
       Toast.sad('昵称或生日或城市不能为空', 2000, 'center');
       return;
     }
-    // ImagePicker.openPicker({
-    //   width: 300,
-    //   height: 400,
-    //   cropping: true,
-    // }).then((image) => {
-    //   console.log(image);
-    // });
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image) => {
+      console.log(image);
+    });
   };
   const dateNow = new Date();
   let currentDate = `${dateNow.getFullYear()}-${
@@ -80,6 +81,11 @@ const UserInfo = () => {
         style={{
           marginTop: pxToDp(20),
         }}>
+        <View>
+          {/* <Image source={kkk}></Image> */}
+          <Avatar rounded source={kkk} />
+        </View>
+
         <View
           style={{
             width: '60%',
