@@ -1,10 +1,11 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, AsyncStorage, Image} from 'react-native';
 import {pxToDp} from '../../../utils/styleKit';
 import SvgUri from 'react-native-svg-uri';
 import {male, female} from '../../../resource/fonts/svgIcon';
-import {Input, Avatar, Accessory} from 'react-native-elements';
+import {Input} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import Geo from '../../../utils/Geo';
 import Picker from 'react-native-picker';
@@ -12,9 +13,11 @@ import CityJson from '../../../resource/city.json';
 import ColorBtn from '../../../components/ColorBtn';
 import Toast from '../../../components/Toast';
 import ImagePicker from 'react-native-image-crop-picker';
-import kkk from '../../../resource/images/login-bg.jpg';
-
-const UserInfo = () => {
+import defaultAvatar from '../../../resource/images/default-avatar.jpg';
+import {Dimensions} from 'react-native';
+import {observer, inject} from 'mobx-react';
+const windowWidth = Dimensions.get('window').width;
+const UserInfo = (props) => {
   const [sumbitInfo, setSumbitInfo] = useState({
     nickname: '',
     gender: '男',
@@ -25,15 +28,35 @@ const UserInfo = () => {
     lat: '',
     address: '',
   });
+  const [avatarImg, setAvatarImg] = useState('');
   useEffect(() => {
+    console.log(props.rootStore.name);
     Geo.getCityByLocation().then((res) => {
-      console.log(res);
       const city = res.regeocode.addressComponent.city.replace('市', '');
       const address = res.regeocode.formatted_address;
-      console.log(city, address);
       setSumbitInfo({...sumbitInfo, city, address});
     });
+    console.log(props);
   }, []);
+
+  const submitApprove = () => {
+    const {nickname, birthday, city} = sumbitInfo;
+    if (!nickname || !birthday || !city || !avatarImg) {
+      Toast.sad('头像或昵称或生日或城市不能为空', 2000, 'center');
+      return;
+    }
+    props.rootStore.changeName({
+      ...props.rootStore.userInfo,
+      name: nickname,
+      city: city,
+      headerImg: avatarImg,
+    });
+    AsyncStorage.setItem(
+      'userInfo',
+      JSON.stringify({name: nickname, city: city, headerImg: avatarImg}),
+    );
+    props.navigation.navigate('Home');
+  };
   const showCityPicker = () => {
     Picker.init({
       pickerData: CityJson, //显示的数据
@@ -52,17 +75,13 @@ const UserInfo = () => {
     setSumbitInfo({...sumbitInfo, gender});
   };
   const chooeseHeadImg = () => {
-    const {nickname, birthday, city} = sumbitInfo;
-    if (!nickname || !birthday || !city) {
-      Toast.sad('昵称或生日或城市不能为空', 2000, 'center');
-      return;
-    }
     ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true,
     }).then((image) => {
       console.log(image);
+      setAvatarImg(image.path);
     });
   };
   const dateNow = new Date();
@@ -70,9 +89,16 @@ const UserInfo = () => {
     dateNow.getMonth() + 1
   }-${dateNow.getDate()}`;
   return (
-    <View style={{flex: 1, backgroundColor: '#fff', padding: pxToDp(20)}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+        padding: pxToDp(20),
+        paddingTop: pxToDp(60),
+      }}>
       <Text style={{color: '#666', fontSize: pxToDp(25), fontWeight: 'bold'}}>
-        填写资料
+        填写资料{typeof props.rootStore.changeName}
+        {JSON.stringify(props.rootStore.userInfo)}
       </Text>
       <Text style={{color: '#666', fontSize: pxToDp(25), fontWeight: 'bold'}}>
         完成身份认证
@@ -81,10 +107,25 @@ const UserInfo = () => {
         style={{
           marginTop: pxToDp(20),
         }}>
-        <View>
-          {/* <Image source={kkk}></Image> */}
-          <Avatar rounded source={kkk} />
-        </View>
+        <TouchableOpacity
+          onPress={chooeseHeadImg}
+          style={{
+            alignSelf: 'center',
+            marginBottom: pxToDp(20),
+          }}>
+          <Image
+            style={{
+              borderRadius: (windowWidth * 0.3) / 2,
+              width: windowWidth * 0.3,
+              height: windowWidth * 0.3,
+              marginBottom: pxToDp(5),
+            }}
+            source={avatarImg ? {uri: avatarImg} : defaultAvatar}
+          />
+          <Text style={{alignSelf: 'center', color: '#999'}}>
+            点击设置默认头像
+          </Text>
+        </TouchableOpacity>
 
         <View
           style={{
@@ -165,21 +206,21 @@ const UserInfo = () => {
           <Input
             disabled={true}
             value={`当前定位:${sumbitInfo.city}`}
-            inputStyle={{color: `#666`}}
+            inputStyle={{color: '#666'}}
           />
         </TouchableOpacity>
       </View>
       <ColorBtn
-        onPress={chooeseHeadImg}
+        onPress={submitApprove}
         style={{
           height: pxToDp(40),
           marginTop: pxToDp(20),
           borderRadius: pxToDp(20),
         }}>
-        设置头像
+        提交认证
       </ColorBtn>
     </View>
   );
 };
 
-export default UserInfo;
+export default inject('rootStore')(observer(UserInfo));

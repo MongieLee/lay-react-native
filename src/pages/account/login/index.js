@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, StatusBar, StyleSheet} from 'react-native';
+import {View, Text, Image, StatusBar, StyleSheet, Button} from 'react-native';
 import Bg from '../../../resource/images/login-bg.jpg';
 import {pxToDp} from '../../../utils/styleKit';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,7 +10,7 @@ import {ACCOUNT_LOGIN, ACCOUNT_VALIDATEVCODE} from '../../../utils/pathMap';
 import Btn from '../../../components/ColorBtn';
 import {CodeField, Cursor} from 'react-native-confirmation-code-field';
 import Toast from '../../../components/Toast';
-
+import {inject, observer} from 'mobx-react';
 const styles = StyleSheet.create({
   root: {flex: 1, padding: 20},
   title: {textAlign: 'center', fontSize: 30},
@@ -65,6 +65,10 @@ const Login = (props) => {
       phone: phoneNumber,
       vcode: '888888',
     });
+    props.rootStore.changeName({
+      ...props.rootStore.userInfo,
+      number: phoneNumber,
+    });
     if (res.code !== '10000') {
       console.log(res);
       return;
@@ -72,6 +76,7 @@ const Login = (props) => {
     if (res.data.isNew) {
       props.navigation.navigate('UserInfo');
     } else {
+      props.navigation.navigate('UserInfo');
       alert('老用户，跳转交往页面');
     }
   };
@@ -180,6 +185,16 @@ const Login = (props) => {
     <View>
       <StatusBar backgroundColor="transparent" translucent={true} />
       <Image style={{width: '100%', height: pxToDp(180)}} source={Bg} />
+      <Button
+        title={'ddjjj'}
+        onPress={() => {
+          console.log('???????');
+          console.log(props.rootStore);
+          props.rootStore.changeName({
+            ...props.rootStore.userInfo,
+            city: '????',
+          });
+        }}></Button>
       <View style={{padding: pxToDp(20)}}>
         <View style={{marginTop: pxToDp(10)}}>
           {showLogin ? renderLogin() : renderVCode()}
@@ -189,4 +204,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default inject('rootStore')(observer(Login));

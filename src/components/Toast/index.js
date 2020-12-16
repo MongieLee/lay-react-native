@@ -15,7 +15,9 @@ Toast.showLoadding = (text) => {
 };
 
 Toast.hideLoadding = () => {
-  if (!customKey) return;
+  if (!customKey) {
+    return;
+  }
   Toast.hide(customKey);
   customKey = null;
 };
