@@ -1,7 +1,6 @@
-/* eslint-disable react/self-closing-comp */
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {inject, observer} from 'mobx-react';
-import {View, Text, StatusBar, AsyncStorage} from 'react-native';
+import {View, Text, AsyncStorage} from 'react-native';
 import Svg from 'react-native-svg-uri';
 import TabNavigator from 'react-native-tab-navigator';
 import HomePage from './homePage/HomePage';
@@ -22,14 +21,7 @@ function Index() {
   );
 }
 
-const Home = (props) => {
-  useEffect(() => {
-    async function c() {
-      const a = await AsyncStorage.getItem('userInfo');
-      console.log(a);
-    }
-    c();
-  }, []);
+const Home = () => {
   const [navSelect, setNavSelect] = useState('home');
   const pages = [
     {

@@ -185,16 +185,6 @@ const Login = (props) => {
     <View>
       <StatusBar backgroundColor="transparent" translucent={true} />
       <Image style={{width: '100%', height: pxToDp(180)}} source={Bg} />
-      <Button
-        title={'ddjjj'}
-        onPress={() => {
-          console.log('???????');
-          console.log(props.rootStore);
-          props.rootStore.changeName({
-            ...props.rootStore.userInfo,
-            city: '????',
-          });
-        }}></Button>
       <View style={{padding: pxToDp(20)}}>
         <View style={{marginTop: pxToDp(10)}}>
           {showLogin ? renderLogin() : renderVCode()}
