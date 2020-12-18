@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {pxToDp} from '../../../../../utils/styleKit';
+import {Overlay} from 'teaset';
+import Filtrate from './components/Filtrate';
 
 let data = [
   {
@@ -101,11 +103,73 @@ const styles = StyleSheet.create({
   img: {
     flex: 2,
   },
+  topBarWrapper: {
+    flexDirection: 'row',
+    flexGrow: 1,
+  },
+  topBarItem: {
+    fontWeight: 'bold',
+    fontSize: pxToDp(16),
+
+    padding: pxToDp(8),
+  },
 });
 const Index = () => {
   const [listData, setListData] = useState(data);
+  const [highlightItem, setHighlightItem] = useState('推荐');
+  const changeHighlight = (itemName) => {
+    setHighlightItem(itemName);
+  };
+  const showF = () => {
+    let overView = null;
+    let overlayView = (
+      <Overlay.View
+        modal={true}
+        overlayOpacity={0.3}
+        ref={(v) => (overView = v)}>
+        <Filtrate onClose={() => overView.close()} />
+      </Overlay.View>
+    );
+    Overlay.show(overlayView);
+  };
   return (
     <View style={styles.bWrapper}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: '#fff',
+          borderBottomWidth: pxToDp(1),
+          borderBottomColor: '#ddd',
+        }}>
+        <View style={styles.topBarWrapper}>
+          <Text
+            onPress={() => changeHighlight('推荐')}
+            style={{
+              ...styles.topBarItem,
+              color: highlightItem === '推荐' ? 'red' : '#111112',
+            }}>
+            推荐
+          </Text>
+          <Text
+            onPress={() => changeHighlight('关注')}
+            style={{
+              ...styles.topBarItem,
+              color: highlightItem === '关注' ? 'red' : '#111112',
+            }}>
+            关注
+          </Text>
+          <Text
+            onPress={() => changeHighlight('热榜')}
+            style={{
+              ...styles.topBarItem,
+              color: highlightItem === '热榜' ? 'red' : '#111112',
+            }}>
+            热榜
+          </Text>
+        </View>
+        <Text onPress={showF}>这是筛选按钮</Text>
+      </View>
       <View style={styles.cWrapper}>
         {listData.map((v, i) => {
           return (

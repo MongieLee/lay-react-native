@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, Image, StatusBar, StyleSheet, Button} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Image, StatusBar, StyleSheet} from 'react-native';
 import Bg from '../../../resource/images/login-bg.jpg';
 import {pxToDp} from '../../../utils/styleKit';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {Input} from 'react-native-elements';
 import validator from '../../../utils/validator';
 import request from '../../../utils/request';
@@ -11,6 +10,7 @@ import Btn from '../../../components/ColorBtn';
 import {CodeField, Cursor} from 'react-native-confirmation-code-field';
 import Toast from '../../../components/Toast';
 import {inject, observer} from 'mobx-react';
+
 const styles = StyleSheet.create({
   root: {flex: 1, padding: 20},
   title: {textAlign: 'center', fontSize: 30},
