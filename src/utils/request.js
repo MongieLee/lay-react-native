@@ -24,6 +24,7 @@ instance.interceptors.response.use(
   function (response) {
     // 对响应数据做点什么
     Toast.hideLoadding();
+    console.log(response);
     return response.data;
   },
   function (error) {
@@ -35,4 +36,27 @@ instance.interceptors.response.use(
 export default {
   get: instance.get,
   post: instance.post,
+  privatePost: (url, data = {}, options = {}) => {
+    // const token = RootStore.token;
+    const headers = options.headers || {};
+    return instance.post(url, data, {
+      ...options,
+      headers: {
+        // Authorization: `Bearer ${token}`,
+        ...headers,
+      },
+    });
+  },
+  privateGet: (url, data = {}, options = {}) => {
+    // const token = RootStore.token;
+    const headers = options.headers || {};
+    return instance.post(url, {
+      ...options,
+      params: data,
+      headers: {
+        // Authorization: `Bearer ${token}`,
+        ...headers,
+      },
+    });
+  },
 };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Image, StatusBar, StyleSheet} from 'react-native';
 import Bg from '../../../resource/images/login-bg.jpg';
 import {pxToDp} from '../../../utils/styleKit';
@@ -10,6 +10,7 @@ import Btn from '../../../components/ColorBtn';
 import {CodeField, Cursor} from 'react-native-confirmation-code-field';
 import Toast from '../../../components/Toast';
 import {inject, observer} from 'mobx-react';
+import {Toast as TeaToast} from 'teaset';
 
 const styles = StyleSheet.create({
   root: {flex: 1, padding: 20},
@@ -34,7 +35,7 @@ const Login = (props) => {
   const [phoneNumber, setPhoneNumber] = useState('13232251122');
   const [phoneValid, setPhoneValid] = useState(true);
   const [showLogin, setShowLogin] = useState(true);
-  const [vCode, setVCode] = useState('');
+  const [vCode, setVCode] = useState('888888');
   const [isCountDown, setIsCountDown] = useState(false);
   const [btnText, setBtnText] = useState('重新获取');
 
@@ -42,17 +43,26 @@ const Login = (props) => {
     setPhoneNumber(phoneNumber);
   };
 
+  useEffect(() => {
+    props.navigation.addListener('focus', () => {
+      StatusBar.setBarStyle('light-content');
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const phoneNumberEditing = async () => {
     if (!validator.validatorPhone(phoneNumber)) {
       setPhoneValid(false);
       return;
     }
-    const res = await request.post(ACCOUNT_LOGIN, {phone: phoneNumber});
-    console.log(res);
-    if (res.code === '10000') {
-      setShowLogin(false);
-      countDownFn();
-    } else {
+    try {
+      const res = await request.post(ACCOUNT_LOGIN, {phone: phoneNumber});
+      if (res.code === 1000) {
+        setShowLogin(false);
+        countDownFn();
+      }
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -65,18 +75,18 @@ const Login = (props) => {
       phone: phoneNumber,
       vcode: '888888',
     });
-    props.rootStore.changeName({
-      ...props.rootStore.userInfo,
-      number: phoneNumber,
-    });
-    if (res.code !== '10000') {
-      console.log(res);
+
+    console.log(res.code);
+    console.log(typeof res.code);
+    if (res.code !== 10000) {
+      TeaToast.sad(res.msg);
       return;
     }
-    if (res.data.isNew) {
+    console.log(res.isNew);
+    if (res.isNew) {
       props.navigation.navigate('UserInfo');
     } else {
-      props.navigation.navigate('UserInfo');
+      props.navigation.navigate('Home');
       alert('老用户，跳转交往页面');
     }
   };

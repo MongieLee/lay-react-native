@@ -1,7 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, AsyncStorage, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  AsyncStorage,
+  Image,
+  StatusBar,
+} from 'react-native';
 import {pxToDp} from '../../../utils/styleKit';
 import SvgUri from 'react-native-svg-uri';
 import {male, female} from '../../../resource/fonts/svgIcon';
@@ -12,6 +19,7 @@ import Picker from 'react-native-picker';
 import CityJson from '../../../resource/city.json';
 import ColorBtn from '../../../components/ColorBtn';
 import Toast from '../../../components/Toast';
+import {Toast as TeaToast} from 'teaset';
 import ImagePicker from 'react-native-image-crop-picker';
 import defaultAvatar from '../../../resource/images/default-avatar.jpg';
 import {Dimensions} from 'react-native';
@@ -42,7 +50,7 @@ const UserInfo = (props) => {
   const submitApprove = () => {
     const {nickname, birthday, city} = sumbitInfo;
     if (!nickname || !birthday || !city || !avatarImg) {
-      Toast.sad('头像或昵称或生日或城市不能为空', 2000, 'center');
+      TeaToast.sad('头像或昵称或生日或城市不能为空', 2000, 'center');
       return;
     }
     props.rootStore.changeName({
@@ -97,8 +105,7 @@ const UserInfo = (props) => {
         paddingTop: pxToDp(60),
       }}>
       <Text style={{color: '#666', fontSize: pxToDp(25), fontWeight: 'bold'}}>
-        填写资料{typeof props.rootStore.changeName}
-        {JSON.stringify(props.rootStore.userInfo)}
+        请填写身份信息
       </Text>
       <Text style={{color: '#666', fontSize: pxToDp(25), fontWeight: 'bold'}}>
         完成身份认证
@@ -219,6 +226,11 @@ const UserInfo = (props) => {
         }}>
         提交认证
       </ColorBtn>
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={'dark-content'}
+        translucent={true}
+      />
     </View>
   );
 };

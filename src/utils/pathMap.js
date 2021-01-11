@@ -1,4 +1,5 @@
-export const BASE_URI = 'http://157.122.54.189:9089';
+// export const BASE_URI = 'http://157.122.54.189:9089';
+export const BASE_URI = 'http://192.168.8.66:6666';
 
 export const ACCOUNT_LOGIN = '/user/login';
 //获取验证码
@@ -11,4 +12,4 @@ export const ACCOUNT_VALIDATEVCODE = 'user/loginVerification';
 
 export const ACCOUNT_CHECKHEADIMAGE = 'user/loginreginfo/head';
 //审核头像
-
+export const FRIENDS_VISITORS = '/FRIENDS/VISITORS';

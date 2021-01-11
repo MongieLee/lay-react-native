@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {inject, observer} from 'mobx-react';
-import {View, Text, AsyncStorage} from 'react-native';
+import {View, Text, AsyncStorage, StatusBar} from 'react-native';
 import Svg from 'react-native-svg-uri';
 import TabNavigator from 'react-native-tab-navigator';
 import HomePage from './homePage/HomePage';
@@ -12,6 +12,7 @@ import {
   selectHome,
   selectMe,
 } from '../../resource/fonts/svgIcon';
+import Mine from './Mine/Mine';
 
 function Index() {
   return (
@@ -53,7 +54,7 @@ const Home = () => {
       defaultIcon: () => <Svg width="20" height="20" svgXmlData={defaultMe} />,
       selectIcon: () => <Svg width="20" height="20" svgXmlData={selectMe} />,
       routeName: 'me',
-      component: <Index />,
+      component: <Mine />,
       onPress: () => {
         setNavSelect('me');
       },
@@ -61,7 +62,6 @@ const Home = () => {
   ];
 
   return (
-    // eslint-disable-next-line react-native/no-inline-styles
     <View style={{backgroundColor: 'white', flex: 1}}>
       <TabNavigator>
         {pages.map((item) => {
